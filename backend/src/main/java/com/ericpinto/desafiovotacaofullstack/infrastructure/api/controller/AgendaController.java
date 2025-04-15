@@ -1,6 +1,7 @@
 package com.ericpinto.desafiovotacaofullstack.infrastructure.api.controller;
 
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaRegisterRequest;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaListResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVotingSessionResponse;
@@ -16,6 +17,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/agendas")
@@ -39,6 +42,11 @@ public class AgendaController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(agendaService.create(agendaRegisterRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AgendaListResponse>> getAll(){
+        return ResponseEntity.ok(agendaService.findAll());
     }
 
     @Operation(summary = "Abrir sessão de votação em uma pauta")

@@ -1,6 +1,7 @@
 package com.ericpinto.desafiovotacaofullstack.domain.vote.service;
 
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaRegisterRequest;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaListResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVotingSessionResponse;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AgendaService {
@@ -33,6 +35,14 @@ public class AgendaService {
 
         log.info("Created new agenda.");
         return AgendaMapper.toResponse(agendaEntity);
+    }
+
+    public List<AgendaListResponse> findAll(){
+        log.info("Finding all agendas.");
+        return agendaRepository.findAll()
+                .stream()
+                .map(AgendaMapper::toListResponse)
+                .toList();
     }
 
     public AgendaVotingSessionResponse openSessionToVote(String id) {
