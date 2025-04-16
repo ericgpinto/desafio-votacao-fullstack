@@ -4,7 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
 
-public record AgendaListResponse(
+public record AgendaResponse(
+        String id,
         @Schema(description = "Titulo da pauta", example = "Pauta 1")
         String title,
         @Schema(description = "Descrição da pauta", example = "Descrição 1")

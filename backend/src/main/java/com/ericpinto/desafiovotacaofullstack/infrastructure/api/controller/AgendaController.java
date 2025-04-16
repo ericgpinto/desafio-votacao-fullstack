@@ -1,7 +1,8 @@
 package com.ericpinto.desafiovotacaofullstack.infrastructure.api.controller;
 
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaRegisterRequest;
-import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaListResponse;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaVotingSessionRequest;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVotingSessionResponse;
@@ -45,8 +46,13 @@ public class AgendaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AgendaListResponse>> getAll(){
+    public ResponseEntity<List<AgendaResponse>> getAll(){
         return ResponseEntity.ok(agendaService.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AgendaResponse> getById(@PathVariable String id) {
+        return ResponseEntity.ok(agendaService.findById(id));
     }
 
     @Operation(summary = "Abrir sessão de votação em uma pauta")
@@ -55,8 +61,8 @@ public class AgendaController {
             @ApiResponse(responseCode = "404", description = "Pauta não encontrada", content = @Content(schema = @Schema(implementation = CustomError.class)))
     })
     @PutMapping("/{id}/open-voting")
-    public ResponseEntity<AgendaVotingSessionResponse> openVoting(@PathVariable String id) {
-        AgendaVotingSessionResponse response = agendaService.openSessionToVote(id);
+    public ResponseEntity<AgendaVotingSessionResponse> openVoting(@PathVariable String id, @RequestBody AgendaVotingSessionRequest request) {
+        AgendaVotingSessionResponse response = agendaService.openSessionToVote(id, request);
         return ResponseEntity.ok(response);
     }
 

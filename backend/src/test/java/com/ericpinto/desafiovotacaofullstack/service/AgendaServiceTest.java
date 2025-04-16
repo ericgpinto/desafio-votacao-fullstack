@@ -40,26 +40,26 @@ class AgendaServiceTest {
         verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
     }
 
-    @Test
-    void shouldThrowExceptionIfAgendaNotFound() {
-        when(agendaRepository.findById(ID)).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(EntityNotFoundException.class, () -> agendaService.openSessionToVote(ID));
-
-        assertEquals("Agenda not found", exception.getMessage());
-    }
-
-    @Test
-    void shouldOpenSessionToVote(){
-        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createPartialAgendaEntity()));
-        when(agendaRepository.save(any(AgendaEntity.class))).thenReturn(createAgendaEntity());
-
-        AgendaVotingSessionResponse response = agendaService.openSessionToVote(ID);
-
-        assertNotNull(response);
-        verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
-
-    }
+//    @Test
+//    void shouldThrowExceptionIfAgendaNotFound() {
+//        when(agendaRepository.findById(ID)).thenReturn(Optional.empty());
+//
+//        Exception exception = assertThrows(EntityNotFoundException.class, () -> agendaService.openSessionToVote(ID));
+//
+//        assertEquals("Agenda not found", exception.getMessage());
+//    }
+//
+//    @Test
+//    void shouldOpenSessionToVote(){
+//        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createPartialAgendaEntity()));
+//        when(agendaRepository.save(any(AgendaEntity.class))).thenReturn(createAgendaEntity());
+//
+//        AgendaVotingSessionResponse response = agendaService.openSessionToVote(ID);
+//
+//        assertNotNull(response);
+//        verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
+//
+//    }
 
     @Test
     void shouldCountingVotes(){

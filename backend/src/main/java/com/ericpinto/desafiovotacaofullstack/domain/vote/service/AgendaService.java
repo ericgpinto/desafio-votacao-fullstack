@@ -1,7 +1,8 @@
 package com.ericpinto.desafiovotacaofullstack.domain.vote.service;
 
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaRegisterRequest;
-import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaListResponse;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaVotingSessionRequest;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVotingSessionResponse;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AgendaService {
@@ -34,23 +36,34 @@ public class AgendaService {
         agendaRepository.save(agendaEntity);
 
         log.info("Created new agenda.");
-        return AgendaMapper.toResponse(agendaEntity);
+        return AgendaMapper.toRegisterResponse(agendaEntity);
     }
 
-    public List<AgendaListResponse> findAll(){
+    public List<AgendaResponse> findAll(){
         log.info("Finding all agendas.");
         return agendaRepository.findAll()
                 .stream()
-                .map(AgendaMapper::toListResponse)
+                .map(AgendaMapper::toResponse)
                 .toList();
     }
 
-    public AgendaVotingSessionResponse openSessionToVote(String id) {
+    public AgendaResponse findById(String id) {
+        log.info("Finding agenda by id.");
+        return AgendaMapper.toResponse(agendaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Agenda not found"))) ;
+    }
+
+    public AgendaVotingSessionResponse openSessionToVote(String id, AgendaVotingSessionRequest request) {
         log.info("Opening session to vote for agenda.");
         AgendaEntity agenda = getById(id);
 
         agenda.setVoteOpeningTime(LocalDateTime.now());
-        agenda.setVoteClosingTime(LocalDateTime.now().plusHours(1));
+
+        if (Objects.isNull(request.voteClosingTime())){
+            agenda.setVoteClosingTime(LocalDateTime.now().plusHours(1));
+        } else {
+            agenda.setVoteClosingTime(request.voteClosingTime());
+        }
+
 
         agendaRepository.save(agenda);
 
