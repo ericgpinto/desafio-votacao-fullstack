@@ -1,12 +1,15 @@
 package com.ericpinto.desafiovotacaofullstack.stub;
 
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaRegisterRequest;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaVotingSessionRequest;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.entity.AgendaEntity;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AgendaStub {
 
@@ -48,11 +51,8 @@ public class AgendaStub {
         return new AgendaRegisterRequest(TITLE, DESCRIPTION);
     }
 
-    public static AgendaRegisterResponse createAgendaRegisterResponse() {
-        return new AgendaRegisterResponse(ID, TITLE, DESCRIPTION);
+    public static AgendaVotingSessionRequest createAgendaVotingSessionRequest() {
+        return new AgendaVotingSessionRequest(LocalDateTime.of(2025, 4, 15, 14, 30));
     }
 
-    public static AgendaVoteResultResponse createAgendaVoteResultResponse() {
-        return new AgendaVoteResultResponse(ID, TITLE, DESCRIPTION, 10L, 6L, 4L);
-    }
 }

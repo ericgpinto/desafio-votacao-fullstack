@@ -1,6 +1,8 @@
 package com.ericpinto.desafiovotacaofullstack.service;
 
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.request.AgendaVotingSessionRequest;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaRegisterResponse;
+import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVoteResultResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.dto.response.AgendaVotingSessionResponse;
 import com.ericpinto.desafiovotacaofullstack.domain.vote.entity.AgendaEntity;
@@ -13,7 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
+import java.util.*;
 
 import static com.ericpinto.desafiovotacaofullstack.stub.AgendaStub.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -40,26 +42,59 @@ class AgendaServiceTest {
         verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
     }
 
-//    @Test
-//    void shouldThrowExceptionIfAgendaNotFound() {
-//        when(agendaRepository.findById(ID)).thenReturn(Optional.empty());
-//
-//        Exception exception = assertThrows(EntityNotFoundException.class, () -> agendaService.openSessionToVote(ID));
-//
-//        assertEquals("Agenda not found", exception.getMessage());
-//    }
-//
-//    @Test
-//    void shouldOpenSessionToVote(){
-//        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createPartialAgendaEntity()));
-//        when(agendaRepository.save(any(AgendaEntity.class))).thenReturn(createAgendaEntity());
-//
-//        AgendaVotingSessionResponse response = agendaService.openSessionToVote(ID);
-//
-//        assertNotNull(response);
-//        verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
-//
-//    }
+    @Test
+    void shouldGetAll(){
+
+        when(agendaRepository.findAll()).thenReturn(List.of(createAgendaEntity()));
+
+        List<AgendaResponse> response = agendaService.findAll();
+
+        assertNotNull(response);
+        assertEquals(1, response.size());
+    }
+
+
+    @Test
+    void shouldGetAgendaById() {
+        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createAgendaEntity()));
+        AgendaResponse response = agendaService.findById(ID);
+        assertNotNull(response);
+    }
+
+    @Test
+    void shouldThrowExceptionIfAgendaNotFound() {
+        when(agendaRepository.findById(ID)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(EntityNotFoundException.class, () -> agendaService.openSessionToVote(ID, createAgendaVotingSessionRequest()));
+
+        assertEquals("Agenda not found", exception.getMessage());
+    }
+
+    @Test
+    void shouldOpenSessionToVoteWithDefaultEndTime(){
+        AgendaVotingSessionRequest agendaVotingSessionRequest = new AgendaVotingSessionRequest(null);
+        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createPartialAgendaEntity()));
+        when(agendaRepository.save(any(AgendaEntity.class))).thenReturn(createAgendaEntity());
+
+
+        AgendaVotingSessionResponse response = agendaService.openSessionToVote(ID, agendaVotingSessionRequest);
+
+        assertNotNull(response);
+        verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
+
+    }
+
+    @Test
+    void shouldOpenSessionToVote(){
+        when(agendaRepository.findById(ID)).thenReturn(Optional.of(createPartialAgendaEntity()));
+        when(agendaRepository.save(any(AgendaEntity.class))).thenReturn(createAgendaEntity());
+
+        AgendaVotingSessionResponse response = agendaService.openSessionToVote(ID, createAgendaVotingSessionRequest());
+
+        assertNotNull(response);
+        verify(agendaRepository, times(1)).save(any(AgendaEntity.class));
+
+    }
 
     @Test
     void shouldCountingVotes(){

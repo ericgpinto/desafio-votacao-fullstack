@@ -49,7 +49,7 @@ public class AgendaService {
 
     public AgendaResponse findById(String id) {
         log.info("Finding agenda by id.");
-        return AgendaMapper.toResponse(agendaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Agenda not found"))) ;
+        return AgendaMapper.toResponse(getById(id)) ;
     }
 
     public AgendaVotingSessionResponse openSessionToVote(String id, AgendaVotingSessionRequest request) {

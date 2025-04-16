@@ -10,10 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class AgendaMapper {
 
-    public static AgendaEntity toEntity(AgendaRegisterRequest request) {
+    public static AgendaEntity toEntity(AgendaResponse response) {
         return AgendaEntity.builder()
-                .title(request.title())
-                .description(request.description())
+                .title(response.title())
+                .description(response.description())
+                .voteClosingTime(response.voteOpeningTime())
+                .voteOpeningTime(response.voteClosingTime())
                 .build();
     }
 
