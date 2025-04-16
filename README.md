@@ -22,8 +22,8 @@ Este é um sistema de votação de pautas, composto por:
 #### 1. Clone o repositório:
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repo.git
-cd seu-repo/backend
+git clone https://github.com/ericgpinto/desafio-votacao-fullstack.git
+cd desafio-votacao-fullstack
 ```
 
 ---
