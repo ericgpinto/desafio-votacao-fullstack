@@ -5,16 +5,6 @@ Este é um sistema de votação de pautas, composto por:
 - Backend em **Java com Spring Boot**
 - Frontend em **React + Vite + Tailwind**
 - Banco de dados **MongoDB Atlas**
-- Deploy:
-  - Backend: [Render](https://render.com)
-  - Frontend: [Vercel](https://vercel.com)
-
----
-
-## 🚀 Acesso em Produção
-
-- 🌐 Frontend: [https://nome-do-app.vercel.app](https://nome-do-app.vercel.app)
-- 🔗 Backend: [https://nome-do-backend.onrender.com](https://nome-do-backend.onrender.com)
 
 ---
 
@@ -35,3 +25,14 @@ Este é um sistema de votação de pautas, composto por:
 git clone https://github.com/seu-usuario/seu-repo.git
 cd seu-repo/backend
 ```
+
+---
+
+## Como acessar localmente após inicializar os projetos
+
+- 🌐 Frontend: [http://localhost:5173](https://nome-do-app.vercel.app)
+- 🔗 Backend Documentação(Swagger): [http://localhost:8080/customer-swagger-ui](https://nome-do-backend.onrender.com)
+
+---
+
+
