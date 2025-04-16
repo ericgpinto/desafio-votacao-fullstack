@@ -30,8 +30,8 @@ cd seu-repo/backend
 
 ## Como acessar localmente após inicializar os projetos
 
-- 🌐 Frontend: [http://localhost:5173](http://localhost:5173)
-- 🔗 Documentação Backend(Swagger): [http://localhost:8080/api/v1/customer-swagger-ui]([https://nome-do-backend.onrender.com](http://localhost:8080/api/v1/customer-swagger-ui))
+- 🌐 Frontend: [http://localhost:5173](https://nome-do-app.vercel.app)
+- 🔗 Backend Documentação(Swagger): [http://localhost:8080/customer-swagger-ui](https://nome-do-backend.onrender.com)
 
 ---
 
