@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import OpenVotingSessionModal from "./OpenVotingSessionModal";
 import { getAllAgendas, getVoteResult } from "../services/agendaServices";
+import CreateAgendaModal from "./CreateAgendaModal";
 
 interface Agenda {
   id: string;
@@ -22,6 +23,7 @@ export default function AgendaList() {
   const [selectedAgendaId, setSelectedAgendaId] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [results, setResults] = useState<{ [key: string]: VoteResult }>({});
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -72,43 +74,53 @@ export default function AgendaList() {
 
   return (
     <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Pautas</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Pautas</h1>
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          onClick={() => setShowCreateModal(true)}
+        >
+          Nova Pauta
+        </button>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {agendas.map((agenda) => (
           <div
             key={agenda.id}
-            className="bg-white shadow-md rounded-md p-6 flex flex-col justify-between"
+            className="bg-white shadow-md rounded-md p-6 flex flex-col justify-between min-h-[320px]"
           >
-            <div>
+            <div className="flex-grow">
               <h2 className="text-lg font-semibold mb-2">{agenda.title}</h2>
-              <p className="text-gray-700 text-sm mb-2">{agenda.description}</p>
+              <p className="text-gray-700 text-sm mb-4">{agenda.description}</p>
 
-              <p className="text-sm text-gray-600">
-                <strong>Início:</strong> {formatDate(agenda.voteOpeningTime)}
-              </p>
-              <p className="text-sm text-gray-600">
-                <strong>Fim:</strong> {formatDate(agenda.voteClosingTime)}
-              </p>
+              <div className="text-sm text-gray-600 space-y-1">
+                <p>
+                  <strong>Início:</strong> {formatDate(agenda.voteOpeningTime)}
+                </p>
+                <p>
+                  <strong>Fim:</strong> {formatDate(agenda.voteClosingTime)}
+                </p>
+              </div>
             </div>
 
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-4">
               {!agenda.voteOpeningTime && !agenda.voteClosingTime ? (
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm"
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm w-full"
                   onClick={() => handleOpenVotingClick(agenda.id)}
                 >
                   Abrir votação
                 </button>
               ) : isVotingOpen(agenda) ? (
                 <button
-                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm w-full"
                   onClick={() => handleVoteClick(agenda.id)}
                 >
                   Votar
                 </button>
               ) : isVotingClosed(agenda) ? (
                 <button
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm"
+                  className="bg-gray-600 hover:bg-gray-700 text-white px-3 py-1 rounded text-sm w-full"
                   onClick={() => handleShowResultsClick(agenda.id)}
                 >
                   Ver resultados
@@ -142,6 +154,10 @@ export default function AgendaList() {
             setSelectedAgendaId(null);
           }}
         />
+      )}
+
+      {showCreateModal && (
+        <CreateAgendaModal onClose={() => setShowCreateModal(false)} />
       )}
     </div>
   );
