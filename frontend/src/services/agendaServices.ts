@@ -1,14 +1,13 @@
 import axios from "axios";
+import api from "./api";
 
-const API_BASE = "http://localhost:8080/api/v1/agendas";
-
-export const getAllAgendas = () => axios.get(API_BASE);
-export const getAgendaById = (id: string) => axios.get(`${API_BASE}/${id}`);
+export const getAllAgendas = () => api.get("/agendas");
+export const getAgendaById = (id: string) => axios.get(`${"/agendas"}/${id}`);
 export const openVotingSession = (
   id: string,
   data: { voteClosingTime?: string }
-) => axios.put(`${API_BASE}/${id}/open-voting`, data);
+) => api.put(`${"/agendas"}/${id}/open-voting`, data);
 export const getVoteResult = (id: string) =>
-  axios.get(`${API_BASE}/${id}/counting-votes`);
+  api.get(`${"/agendas"}/${id}/counting-votes`);
 export const registerAgenda = (data: { title: string; description: string }) =>
-  axios.post(`${API_BASE}/register`, data);
+  api.post(`${"/agendas"}/register`, data);
